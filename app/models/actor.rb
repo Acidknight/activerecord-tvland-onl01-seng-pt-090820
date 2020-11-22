@@ -1,13 +1,20 @@
 class Actor < ActiveRecord::Base
+
   has_many :characters
   has_many :shows, through: :characters
 
   def full_name
-  	"#{first_name} #{last_name}"
+    # binding.pry
+    "#{self.first_name} #{self.last_name}"
   end
 
   def list_roles
-  	self.characters.map{|character| "#{character.name} - #{character.show.name}"}
+    # binding.pry
+    self.characters.collect do |character|
+      self.shows.collect do |show|
+        "#{character.name} - #{show.name}"
+      end.first
+    end
   end
 
 end
